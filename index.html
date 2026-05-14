@@ -47,6 +47,31 @@
     /* Mobile: pull container padding in */
     @media (max-width: 760px) {
       .container { padding-left: 20px !important; padding-right: 20px !important; }
+
+      /* Defensive: never let horizontal scroll appear */
+      body, html { overflow-x: hidden; }
+
+      /* Ensure form inputs don't trigger iOS zoom on focus */
+      input, select, textarea { font-size: 16px !important; }
+
+      /* Bigger tap targets */
+      button, a { min-height: 32px; }
+
+      /* CSS-level safety nets: collapse all multi-column grids to single
+         column on phone widths so the layout works even if JS detection
+         hasn't fired yet or fails. The class names below are sprinkled
+         across the React components. */
+      .em-mobile-stack { grid-template-columns: 1fr !important; }
+      .em-mobile-stack-flex { flex-direction: column !important; }
+      .em-mobile-hide { display: none !important; }
+      .em-mobile-full { width: 100% !important; }
+
+      /* Hero h1 — clamp it further on phone */
+      .em-hero h1 { font-size: 44px !important; line-height: 1.02 !important; }
+      .em-hero p  { font-size: 16px !important; }
+
+      /* Results header h2 — clamp the route headline */
+      .em-results-h2 { font-size: 36px !important; line-height: 1.05 !important; }
     }
 
     /* Native form normalize */

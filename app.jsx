@@ -129,7 +129,7 @@ function App() {
                 }}>
                   {results.trip_type === "Round Trip" ? "Round Trip" : "One Way"} · {results.passengers} passenger{results.passengers > 1 ? "s" : ""}
                 </div>
-                <h2 style={{
+                <h2 className="em-results-h2" style={{
                   fontFamily: "'Newsreader', serif", fontWeight: 400,
                   fontSize: "clamp(40px, 4.8vw, 68px)", lineHeight: 1,
                   letterSpacing: "-0.015em", margin: 0
@@ -388,7 +388,7 @@ function AircraftStrip() {
       overflow: "hidden"
     }}>
       <div className="container" style={{ padding: isMobile ? "0 20px" : "0 32px" }}>
-        <div style={{
+        <div className="em-mobile-stack" style={{
           display: "grid",
           gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
           gap: isMobile ? 40 : 60,
@@ -557,7 +557,7 @@ function Footer() {
       borderTop: "1px solid var(--rule)",
       padding: isMobile ? "40px 0 30px" : "60px 0 40px"
     }}>
-      <div className="container" style={{
+      <div className="container em-mobile-stack" style={{
         padding: isMobile ? "0 20px" : "0 32px",
         display: "grid",
         gridTemplateColumns: isMobile ? "1fr" : "2fr 1fr 1fr 1fr",

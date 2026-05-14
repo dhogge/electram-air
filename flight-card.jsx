@@ -245,7 +245,7 @@ function FlightCard({ flight, comparisonStyle, bookingMode, passengers, onSelect
         display: "grid",
         gridTemplateColumns: isMobile ? "1fr" : "1fr 240px",
         gap: 0,
-      }}>
+      }} className="em-mobile-stack">
         {/* Left: itinerary */}
         <div style={{ padding: isMobile ? "22px 18px 18px" : "28px 28px 24px" }}>
           <div style={{

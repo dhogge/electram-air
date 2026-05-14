@@ -213,8 +213,11 @@ function HeroVideo({ parallaxY }) {
 }
 
 function Hero() {
-  const parallaxY = useHeroParallax();
+  const parallaxYRaw = useHeroParallax();
   const isMobile = useIsMobile();
+  // Disable parallax on mobile — it can feel choppy on touch and the
+  // background image is already large enough.
+  const parallaxY = isMobile ? 0 : parallaxYRaw;
   return (
     <section style={{
       position: "relative",
@@ -231,7 +234,7 @@ function Hero() {
         pointerEvents: "none",
       }} />
 
-      <div className="container" style={{
+      <div className="container em-hero" style={{
         position: "relative",
         padding: isMobile ? "80px 20px 160px" : "120px 32px 220px",
       }}>
@@ -363,8 +366,8 @@ function Hero() {
 
         {/* Scroll cue */}
         {!isMobile && (
-        <HeroEntry delay={1800} duration={1000}>
-          <div style={{
+        <HeroEntry delay={1100} duration={1000}>
+          <div className="em-mobile-hide" style={{
             position: "absolute", left: 32, bottom: 24,
             display: "flex", alignItems: "center", gap: 10,
             color: "rgba(255,255,255,.55)",
@@ -397,7 +400,7 @@ function SearchPanel({ state, setState, onSearch }) {
       zIndex: 10,
     }}>
       <div className="container" style={{ padding: isMobile ? "0 20px" : "0 32px" }}>
-        <Reveal y={48} duration={1100} delay={1600}>
+        <Reveal y={32} duration={800} delay={400}>
           <div style={{
           background: "var(--paper)",
           border: "1px solid var(--rule-strong)",
@@ -446,7 +449,7 @@ function SearchPanel({ state, setState, onSearch }) {
           </div>
 
           {/* Main form */}
-          <div style={{
+          <div className="em-mobile-stack" style={{
             display: "grid",
             gridTemplateColumns: isMobile
               ? "1fr"
@@ -461,7 +464,7 @@ function SearchPanel({ state, setState, onSearch }) {
               onChange={(v) => setState((s) => ({ ...s, depart_code: v }))}
               options={window.AIRPORTS}
             />
-            <button onClick={swapAirports} aria-label="Swap" style={{
+            <button onClick={swapAirports} aria-label="Swap" className="em-mobile-full" style={{
               alignSelf: isMobile ? "center" : "end",
               marginBottom: 2,
               width: isMobile ? "100%" : 44,
