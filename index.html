@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ElectRAM Air · Book a Flight on the E.C.H.O.</title>
+  <link rel="icon" type="image/png" href="images/electram-logo.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Palette — VT Maroon family, modernized */
+      --maroon:        #861F41;
+      --maroon-dark:   #5e1530;
+      --orange:        #E5751F;
+      --ink-0:         #14161A;    /* deep ink, near black */
+      --ink-1:         #2C2F36;    /* body */
+      --ink-2:         #74787F;    /* secondary */
+      --ink-3:         #A5A8AE;    /* tertiary / meta */
+      --paper:         #FAF8F2;    /* warm off-white card */
+      --bg:            #F2EFE6;    /* page background — slightly warmer */
+      --rule:          #E3DFD4;
+      --rule-strong:   #C8C3B3;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink-1);
+      font-family: "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+      font-size: 15px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Native form normalize */
+    button { font-family: inherit; }
+    input, select { font-family: inherit; }
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(0.4);
+      cursor: pointer;
+    }
+
+    /* Smooth scroll for anchored navigation */
+    html { scroll-behavior: smooth; }
+
+    /* Hero entry keyframes */
+    @keyframes heroRule {
+      from { transform: scaleX(0); transform-origin: left; }
+      to   { transform: scaleX(1); transform-origin: left; }
+    }
+    @keyframes heroScrollCue {
+      0%, 100% { transform: translateX(0); opacity: .55; }
+      50%      { transform: translateX(8px); opacity: 1; }
+    }
+
+    /* Respect reduced motion preferences */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React + Babel -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <!-- Data + logic (plain JS) -->
+  <script src="data.js"></script>
+  <script src="flight-logic.js"></script>
+
+  <!-- Components -->
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" src="motion.jsx"></script>
+  <script type="text/babel" src="ui-components.jsx"></script>
+  <script type="text/babel" src="search-form.jsx"></script>
+  <script type="text/babel" src="flight-card.jsx"></script>
+  <script type="text/babel" src="summary.jsx"></script>
+  <script type="text/babel" src="app.jsx"></script>
+</body>
+</html>
