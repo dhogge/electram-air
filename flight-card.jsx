@@ -10,15 +10,18 @@ function LegReadout({ depH, depM, arrH, arrM, depCode, arrCode, durH, durM, mode
   const [dt, dap] = fmtTime(depH, depM);
   const [at, aap] = fmtTime(arrH, arrM);
   const dur = durM ? `${durH}h ${durM}m` : `${durH}h`;
+  const isMobile = window.useIsMobile ? window.useIsMobile() : false;
+  const timeSize = isMobile ? 30 : 40;
+  const ampmSize = isMobile ? 13 : 16;
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 32 }}>
+    <div style={{ display: "flex", alignItems: "center", gap: isMobile ? 14 : 32 }}>
       <div>
         <div style={{
-          fontFamily: "'Newsreader', serif", fontSize: 40, fontWeight: 500,
+          fontFamily: "'Newsreader', serif", fontSize: timeSize, fontWeight: 500,
           lineHeight: 1, color: "var(--ink-0)", letterSpacing: "-0.01em",
         }}>
           {dt}<span style={{
-            fontSize: 16, marginLeft: 4, color: "var(--ink-2)", verticalAlign: "0.4em",
+            fontSize: ampmSize, marginLeft: 4, color: "var(--ink-2)", verticalAlign: "0.4em",
           }}>{dap}</span>
         </div>
         <div style={{
@@ -27,7 +30,7 @@ function LegReadout({ depH, depM, arrH, arrM, depCode, arrCode, durH, durM, mode
         }}>{depCode}</div>
       </div>
 
-      <div style={{ flex: 1, minWidth: 120, textAlign: "center" }}>
+      <div style={{ flex: 1, minWidth: isMobile ? 60 : 120, textAlign: "center" }}>
         <div style={{
           fontFamily: "'JetBrains Mono', monospace", fontSize: 10,
           letterSpacing: ".18em", color: "var(--ink-2)", marginBottom: 8,
@@ -45,11 +48,11 @@ function LegReadout({ depH, depM, arrH, arrM, depCode, arrCode, durH, durM, mode
 
       <div style={{ textAlign: "right" }}>
         <div style={{
-          fontFamily: "'Newsreader', serif", fontSize: 40, fontWeight: 500,
+          fontFamily: "'Newsreader', serif", fontSize: timeSize, fontWeight: 500,
           lineHeight: 1, color: "var(--ink-0)", letterSpacing: "-0.01em",
         }}>
           {at}<span style={{
-            fontSize: 16, marginLeft: 4, color: "var(--ink-2)", verticalAlign: "0.4em",
+            fontSize: ampmSize, marginLeft: 4, color: "var(--ink-2)", verticalAlign: "0.4em",
           }}>{aap}</span>
         </div>
         <div style={{
@@ -97,6 +100,7 @@ function TimeAdvantage({ flight }) {
 // ── Conventional comparison: inline expanding row inside a card ─────────────
 function InlineCompare({ flight }) {
   const [open, setOpen] = useState_FC(false);
+  const isMobile = window.useIsMobile ? window.useIsMobile() : false;
   const L = flight.legacy;
   return (
     <div style={{
@@ -121,8 +125,9 @@ function InlineCompare({ flight }) {
       {open && (
         <div style={{
           padding: "8px 0 18px",
-          display: "grid", gridTemplateColumns: "1fr 1fr",
-          gap: 24,
+          display: "grid",
+          gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+          gap: isMobile ? 14 : 24,
         }}>
           {/* ECHO column */}
           <div style={{
@@ -216,6 +221,7 @@ function Row({ label, value }) {
 function FlightCard({ flight, comparisonStyle, bookingMode, passengers, onSelect }) {
   const displayPrice = bookingMode === "Charter Aircraft" ? flight.charter_price : flight.price;
   flight.display_price = displayPrice;
+  const isMobile = window.useIsMobile ? window.useIsMobile() : false;
 
   return (
     <article style={{
@@ -237,14 +243,14 @@ function FlightCard({ flight, comparisonStyle, bookingMode, passengers, onSelect
 
       <div style={{
         display: "grid",
-        gridTemplateColumns: "1fr 240px",
+        gridTemplateColumns: isMobile ? "1fr" : "1fr 240px",
         gap: 0,
       }}>
         {/* Left: itinerary */}
-        <div style={{ padding: "28px 28px 24px" }}>
+        <div style={{ padding: isMobile ? "22px 18px 18px" : "28px 28px 24px" }}>
           <div style={{
             display: "flex", alignItems: "center", gap: 12,
-            marginBottom: 18,
+            marginBottom: 18, flexWrap: "wrap",
           }}>
             <Chip tone="ghost">
               <EchoMark size={10} color="var(--maroon)" />
@@ -268,7 +274,7 @@ function FlightCard({ flight, comparisonStyle, bookingMode, passengers, onSelect
           <div style={{
             marginTop: 14,
             fontSize: 12.5, color: "var(--ink-2)",
-            display: "flex", gap: 18, flexWrap: "wrap",
+            display: "flex", gap: 12, flexWrap: "wrap",
           }}>
             <span>{flight.dep_city}</span>
             <span style={{ color: "var(--rule-strong)" }}>·</span>
@@ -282,15 +288,20 @@ function FlightCard({ flight, comparisonStyle, bookingMode, passengers, onSelect
 
         {/* Right: price + select */}
         <div style={{
-          borderLeft: "1px solid var(--rule)",
-          padding: "28px 24px",
-          display: "flex", flexDirection: "column", justifyContent: "space-between",
+          borderLeft: isMobile ? "none" : "1px solid var(--rule)",
+          borderTop: isMobile ? "1px solid var(--rule)" : "none",
+          padding: isMobile ? "20px 18px" : "28px 24px",
+          display: "flex",
+          flexDirection: isMobile ? "row" : "column",
+          alignItems: isMobile ? "center" : "stretch",
+          justifyContent: "space-between",
+          gap: isMobile ? 16 : 0,
           background: "linear-gradient(180deg, transparent, rgba(134,31,65,.025))",
         }}>
           <div>
             <TechLabel>{bookingMode === "Charter Aircraft" ? "Aircraft Charter" : "Per Seat"}</TechLabel>
-            <div style={{ marginTop: 8 }}>
-              <DisplayNumber value={displayPrice} prefix="$" size={48} />
+            <div style={{ marginTop: 6 }}>
+              <DisplayNumber value={displayPrice} prefix="$" size={isMobile ? 36 : 48} />
             </div>
             {bookingMode === "Charter Aircraft" && (
               <div style={{
@@ -308,13 +319,14 @@ function FlightCard({ flight, comparisonStyle, bookingMode, passengers, onSelect
           </div>
 
           <button onClick={() => onSelect(flight)} style={{
-            marginTop: 20,
-            padding: "12px 18px",
+            marginTop: isMobile ? 0 : 20,
+            padding: isMobile ? "14px 22px" : "12px 18px",
             background: "var(--ink-0)", color: "#fff",
             border: "none", cursor: "pointer",
             fontFamily: "'JetBrains Mono', monospace",
             fontSize: 11, fontWeight: 600,
             letterSpacing: ".18em", textTransform: "uppercase",
+            whiteSpace: "nowrap",
           }}>
             Select →
           </button>

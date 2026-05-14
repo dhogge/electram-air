@@ -12,6 +12,7 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 
 function App() {
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const isMobile = useIsMobile();
 
   // Default route from tweak
   const [defaultDep, defaultArr] = (t.default_route || "CRW-ATL").split("-");
@@ -110,8 +111,8 @@ function App() {
       {/* Results */}
       {results.visible &&
       <section id="results" data-screen-label="Results"
-      style={{ padding: "80px 0 100px", background: "var(--bg)" }}>
-          <div className="container" style={{ padding: "0 32px" }}>
+      style={{ padding: isMobile ? "60px 0 80px" : "80px 0 100px", background: "var(--bg)" }}>
+          <div className="container" style={{ padding: isMobile ? "0 20px" : "0 32px" }}>
 
             {/* Results header */}
             <Reveal y={28} duration={900}>
@@ -320,10 +321,11 @@ function FlightList({ flights, bookingMode, passengers, onSelect, comparisonStyl
 }
 
 function SideBySide({ flights, bookingMode, passengers, onSelect, showLegacy }) {
+  const isMobile = useIsMobile();
   return (
     <div>
       {/* Column headers */}
-      {showLegacy &&
+      {showLegacy && !isMobile &&
       <div style={{
         display: "grid",
         gridTemplateColumns: "1fr 1fr", gap: 16,
@@ -355,7 +357,7 @@ function SideBySide({ flights, bookingMode, passengers, onSelect, showLegacy }) 
             <Reveal key={i} delay={i * 110} y={28} duration={900}>
               <div style={{
                 display: "grid",
-                gridTemplateColumns: showLegacy ? "1fr 1fr" : "1fr",
+                gridTemplateColumns: (showLegacy && !isMobile) ? "1fr 1fr" : "1fr",
                 gap: 16, marginBottom: 16,
                 alignItems: "stretch"
               }}>
@@ -378,16 +380,18 @@ function SideBySide({ flights, bookingMode, passengers, onSelect, showLegacy }) 
 
 function AircraftStrip() {
   const [imgRef, imgY] = useParallax({ speed: 0.18 });
+  const isMobile = useIsMobile();
   return (
     <section data-screen-label="Aircraft" style={{
-      padding: "100px 0 100px",
+      padding: isMobile ? "70px 0 70px" : "100px 0 100px",
       background: "var(--ink-0)", color: "#fff",
       overflow: "hidden"
     }}>
-      <div className="container" style={{ padding: "0 32px" }}>
+      <div className="container" style={{ padding: isMobile ? "0 20px" : "0 32px" }}>
         <div style={{
           display: "grid",
-          gridTemplateColumns: "1fr 1fr", gap: 60,
+          gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+          gap: isMobile ? 40 : 60,
           alignItems: "center"
         }}>
           <Reveal y={32} duration={1100}>
@@ -461,10 +465,11 @@ function AircraftStrip() {
 
 function CabinStrip() {
   const [bgRef, bgY] = useParallax({ speed: 0.25 });
+  const isMobile = useIsMobile();
   return (
     <section data-screen-label="Cabin" style={{
       position: "relative",
-      minHeight: 560,
+      minHeight: isMobile ? 480 : 560,
       background: "var(--paper)",
       overflow: "hidden"
     }}>
@@ -478,13 +483,17 @@ function CabinStrip() {
       }} />
       <div style={{
         position: "absolute", inset: 0,
-        background: "linear-gradient(90deg, rgba(250,248,242,.95) 0%, rgba(250,248,242,.82) 35%, rgba(250,248,242,.0) 65%)",
+        background: isMobile
+          ? "linear-gradient(180deg, rgba(250,248,242,.95) 0%, rgba(250,248,242,.88) 60%, rgba(250,248,242,.2) 100%)"
+          : "linear-gradient(90deg, rgba(250,248,242,.95) 0%, rgba(250,248,242,.82) 35%, rgba(250,248,242,.0) 65%)",
         pointerEvents: "none"
       }} />
 
       <div className="container" style={{
-        position: "relative", padding: "120px 32px",
-        minHeight: 560, display: "flex", alignItems: "center"
+        position: "relative",
+        padding: isMobile ? "70px 20px" : "120px 32px",
+        minHeight: isMobile ? 480 : 560,
+        display: "flex", alignItems: "center"
       }}>
         <Reveal y={32} duration={1100}>
           <div style={{ maxWidth: 520 }}>
@@ -541,16 +550,18 @@ function CabinStrip() {
 }
 
 function Footer() {
+  const isMobile = useIsMobile();
   return (
     <footer style={{
       background: "var(--paper)",
       borderTop: "1px solid var(--rule)",
-      padding: "60px 0 40px"
+      padding: isMobile ? "40px 0 30px" : "60px 0 40px"
     }}>
       <div className="container" style={{
-        padding: "0 32px",
-        display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr",
-        gap: 40
+        padding: isMobile ? "0 20px" : "0 32px",
+        display: "grid",
+        gridTemplateColumns: isMobile ? "1fr" : "2fr 1fr 1fr 1fr",
+        gap: isMobile ? 32 : 40
       }}>
         <div>
           <Logo />
@@ -587,9 +598,13 @@ function Footer() {
         )}
       </div>
       <div className="container" style={{
-        padding: "40px 32px 0", marginTop: 40,
+        padding: isMobile ? "30px 20px 0" : "40px 32px 0",
+        marginTop: isMobile ? 28 : 40,
         borderTop: "1px solid var(--rule)",
-        display: "flex", justifyContent: "space-between",
+        display: "flex",
+        flexDirection: isMobile ? "column" : "row",
+        justifyContent: "space-between",
+        gap: isMobile ? 8 : 0,
         fontFamily: "'JetBrains Mono', monospace", fontSize: 10.5,
         letterSpacing: ".14em", color: "var(--ink-3)",
         textTransform: "uppercase"

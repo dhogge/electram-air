@@ -40,6 +40,14 @@ function Logo({ inverted, scale = 1 }) {
 }
 
 function TopNav() {
+  const isMobile = useIsMobile();
+  const [open, setOpen] = useMS(false);
+  const links = [
+    { label: "Book",       href: "#" },
+    { label: "Aircraft",   href: "docs/AVD_2-3.pdf",                                 external: true },
+    { label: "Poster",     href: "docs/AVD_poster_ELECTRAM.pdf",                     external: true },
+    { label: "About",      href: "https://sites.google.com/vt.edu/electram-air?usp=sharing", external: true },
+  ];
   return (
     <header style={{
       position: "sticky", top: 0, zIndex: 50,
@@ -49,38 +57,90 @@ function TopNav() {
     }}>
       <div className="container" style={{
         display: "flex", alignItems: "center", justifyContent: "space-between",
-        padding: "16px 32px",
+        padding: isMobile ? "12px 20px" : "16px 32px",
       }}>
-        <Logo />
-        <nav style={{ display: "flex", gap: 32, alignItems: "center" }}>
-          {[
-            { label: "Book",       href: "#" },
-            { label: "Aircraft",   href: "docs/AVD_2-3.pdf",                                 external: true },
-            { label: "Poster",     href: "docs/AVD_poster_ELECTRAM.pdf",                     external: true },
-            { label: "About",      href: "https://sites.google.com/vt.edu/electram-air?usp=sharing", external: true },
-          ].map((item, i) => (
+        <Logo scale={isMobile ? 0.8 : 1} />
+
+        {!isMobile && (
+          <nav style={{ display: "flex", gap: 32, alignItems: "center" }}>
+            {links.map((item, i) => (
+              <a
+                key={item.label}
+                href={item.href}
+                target={item.external ? "_blank" : undefined}
+                rel={item.external ? "noopener noreferrer" : undefined}
+                style={{
+                  color: "var(--ink-1)", textDecoration: "none",
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase",
+                  borderBottom: i === 0 ? "1px solid var(--maroon)" : "1px solid transparent",
+                  paddingBottom: 4,
+                }}
+              >{item.label}</a>
+            ))}
+            <a href="#" style={{
+              color: "var(--ink-0)", textDecoration: "none",
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase",
+              border: "1px solid var(--ink-0)", padding: "8px 14px",
+            }}>Sign in →</a>
+          </nav>
+        )}
+
+        {isMobile && (
+          <button
+            aria-label="Menu"
+            onClick={() => setOpen(!open)}
+            style={{
+              background: "transparent", border: "1px solid var(--ink-0)",
+              padding: "8px 12px", cursor: "pointer",
+              display: "flex", flexDirection: "column", gap: 4,
+            }}
+          >
+            <span style={{ width: 18, height: 1.5, background: "var(--ink-0)",
+              transform: open ? "translateY(5.5px) rotate(45deg)" : "none",
+              transition: "transform .25s", transformOrigin: "center" }} />
+            <span style={{ width: 18, height: 1.5, background: "var(--ink-0)",
+              opacity: open ? 0 : 1, transition: "opacity .15s" }} />
+            <span style={{ width: 18, height: 1.5, background: "var(--ink-0)",
+              transform: open ? "translateY(-5.5px) rotate(-45deg)" : "none",
+              transition: "transform .25s", transformOrigin: "center" }} />
+          </button>
+        )}
+      </div>
+
+      {isMobile && open && (
+        <nav style={{
+          display: "flex", flexDirection: "column",
+          padding: "8px 20px 20px",
+          borderTop: "1px solid var(--rule)",
+          background: "var(--paper)",
+        }}>
+          {links.map((item) => (
             <a
               key={item.label}
               href={item.href}
               target={item.external ? "_blank" : undefined}
               rel={item.external ? "noopener noreferrer" : undefined}
+              onClick={() => setOpen(false)}
               style={{
                 color: "var(--ink-1)", textDecoration: "none",
                 fontFamily: "'JetBrains Mono', monospace",
-                fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase",
-                borderBottom: i === 0 ? "1px solid var(--maroon)" : "1px solid transparent",
-                paddingBottom: 4,
+                fontSize: 13, letterSpacing: ".14em", textTransform: "uppercase",
+                padding: "14px 0", borderBottom: "1px solid var(--rule)",
               }}
             >{item.label}</a>
           ))}
-          <a href="#" style={{
-            color: "var(--ink-0)", textDecoration: "none",
+          <a href="#" onClick={() => setOpen(false)} style={{
+            marginTop: 16,
+            color: "#fff", background: "var(--ink-0)",
+            textDecoration: "none", textAlign: "center",
             fontFamily: "'JetBrains Mono', monospace",
-            fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase",
-            border: "1px solid var(--ink-0)", padding: "8px 14px",
+            fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase",
+            padding: "14px 16px",
           }}>Sign in →</a>
         </nav>
-      </div>
+      )}
     </header>
   );
 }
@@ -154,6 +214,7 @@ function HeroVideo({ parallaxY }) {
 
 function Hero() {
   const parallaxY = useHeroParallax();
+  const isMobile = useIsMobile();
   return (
     <section style={{
       position: "relative",
@@ -171,7 +232,8 @@ function Hero() {
       }} />
 
       <div className="container" style={{
-        position: "relative", padding: "120px 32px 220px",
+        position: "relative",
+        padding: isMobile ? "80px 20px 160px" : "120px 32px 220px",
       }}>
         {/* Tagline */}
         <HeroEntry delay={100}>
@@ -232,7 +294,7 @@ function Hero() {
         {/* Specs row */}
         <HeroEntry delay={1400} duration={1100}>
           <div style={{
-            marginTop: 56,
+            marginTop: isMobile ? 40 : 56,
             paddingTop: 18,
             borderTop: "1px solid rgba(255,255,255,.18)",
             maxWidth: 760,
@@ -246,8 +308,9 @@ function Hero() {
             </div>
             <div style={{
               display: "grid",
-              gridTemplateColumns: "repeat(2, 1fr)",
-              columnGap: 48, rowGap: 28,
+              gridTemplateColumns: isMobile ? "1fr 1fr" : "repeat(2, 1fr)",
+              columnGap: isMobile ? 20 : 48,
+              rowGap: isMobile ? 22 : 28,
             }}>
               {[
                 {
@@ -273,21 +336,23 @@ function Hero() {
               ].map((s, idx) => (
                 <Reveal key={s.label} delay={idx * 100} y={16}>
                   <div style={{
-                    fontFamily: "'Newsreader', serif", fontSize: 56,
+                    fontFamily: "'Newsreader', serif",
+                    fontSize: isMobile ? 38 : 56,
                     fontWeight: 500, lineHeight: 1, color: "#fff",
                     letterSpacing: "-0.015em",
                   }}>
                     <CountUp {...s.cu} duration={1600} />
                   </div>
                   <div style={{
-                    marginTop: 12,
-                    fontFamily: "'JetBrains Mono', monospace", fontSize: 10,
+                    marginTop: 10,
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: isMobile ? 9 : 10,
                     letterSpacing: ".2em", color: "var(--orange)",
                     textTransform: "uppercase",
                   }}>{s.label}</div>
                   <div style={{
                     marginTop: 8,
-                    fontSize: 13, lineHeight: 1.5,
+                    fontSize: isMobile ? 12 : 13, lineHeight: 1.5,
                     color: "rgba(255,255,255,.72)",
                   }}>{s.desc}</div>
                 </Reveal>
@@ -297,6 +362,7 @@ function Hero() {
         </HeroEntry>
 
         {/* Scroll cue */}
+        {!isMobile && (
         <HeroEntry delay={1800} duration={1000}>
           <div style={{
             position: "absolute", left: 32, bottom: 24,
@@ -310,6 +376,7 @@ function Hero() {
             <span>Scroll to book</span>
           </div>
         </HeroEntry>
+        )}
       </div>
     </section>
   );
@@ -321,14 +388,15 @@ function SearchPanel({ state, setState, onSearch }) {
   };
 
   const isRound = state.trip_type === "Round Trip";
+  const isMobile = useIsMobile();
 
   return (
     <div data-screen-label="Search" style={{
       position: "relative",
-      marginTop: -80,
+      marginTop: isMobile ? -60 : -80,
       zIndex: 10,
     }}>
-      <div className="container" style={{ padding: "0 32px" }}>
+      <div className="container" style={{ padding: isMobile ? "0 20px" : "0 32px" }}>
         <Reveal y={48} duration={1100} delay={1600}>
           <div style={{
           background: "var(--paper)",
@@ -338,11 +406,19 @@ function SearchPanel({ state, setState, onSearch }) {
         }}>
           {/* Top row: trip controls */}
           <div style={{
-            display: "flex", alignItems: "center", justifyContent: "space-between",
-            padding: "18px 24px", borderBottom: "1px solid var(--rule)",
-            gap: 24, flexWrap: "wrap",
+            display: "flex",
+            alignItems: isMobile ? "stretch" : "center",
+            justifyContent: "space-between",
+            padding: isMobile ? "14px 16px" : "18px 24px",
+            borderBottom: "1px solid var(--rule)",
+            gap: isMobile ? 12 : 24,
+            flexWrap: "wrap",
+            flexDirection: isMobile ? "column" : "row",
           }}>
-            <div style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap" }}>
+            <div style={{
+              display: "flex", gap: isMobile ? 8 : 16,
+              alignItems: "center", flexWrap: "wrap",
+            }}>
               <Segmented
                 value={state.trip_type}
                 onChange={(v) => setState((s) => ({ ...s, trip_type: v }))}
@@ -357,7 +433,10 @@ function SearchPanel({ state, setState, onSearch }) {
                 ]}
               />
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <div style={{
+              display: "flex", alignItems: "center", gap: 12,
+              justifyContent: isMobile ? "space-between" : "flex-end",
+            }}>
               <TechLabel>Passengers</TechLabel>
               <Stepper
                 value={state.passengers}
@@ -369,9 +448,12 @@ function SearchPanel({ state, setState, onSearch }) {
           {/* Main form */}
           <div style={{
             display: "grid",
-            gridTemplateColumns: "1fr auto 1fr 1fr 1fr auto",
-            gap: 16, alignItems: "end",
-            padding: "24px",
+            gridTemplateColumns: isMobile
+              ? "1fr"
+              : "1fr auto 1fr 1fr 1fr auto",
+            gap: isMobile ? 14 : 16,
+            alignItems: "end",
+            padding: isMobile ? "18px 16px" : "24px",
           }}>
             <FieldSelect
               label="Departing"
@@ -380,8 +462,11 @@ function SearchPanel({ state, setState, onSearch }) {
               options={window.AIRPORTS}
             />
             <button onClick={swapAirports} aria-label="Swap" style={{
-              alignSelf: "end", marginBottom: 2,
-              width: 44, height: 44, border: "1px solid var(--rule-strong)",
+              alignSelf: isMobile ? "center" : "end",
+              marginBottom: 2,
+              width: isMobile ? "100%" : 44,
+              height: isMobile ? 36 : 44,
+              border: "1px solid var(--rule-strong)",
               background: "var(--paper)", color: "var(--ink-0)",
               cursor: "pointer", fontSize: 18,
             }}>⇄</button>
@@ -405,8 +490,10 @@ function SearchPanel({ state, setState, onSearch }) {
               onChange={(v) => setState((s) => ({ ...s, return_date: v }))}
             />
             <button onClick={onSearch} style={{
-              alignSelf: "end",
-              padding: "14px 28px", minHeight: 50,
+              alignSelf: isMobile ? "stretch" : "end",
+              padding: "14px 28px",
+              minHeight: 50,
+              marginTop: isMobile ? 6 : 0,
               background: "var(--maroon)", color: "#fff",
               border: "none", cursor: "pointer",
               fontFamily: "'JetBrains Mono', monospace",

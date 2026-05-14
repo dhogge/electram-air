@@ -207,4 +207,28 @@ function SplitWords({ children, delay = 0, stagger = 60, y = 18,
 
 Object.assign(window, {
   useReveal, Reveal, HeroEntry, CountUp, useParallax, useHeroParallax, SplitWords,
+  useMediaQuery, useIsMobile,
 });
+
+// ── Media query hook ─────────────────────────────────────────────────────
+function useMediaQuery(query) {
+  const [matches, setMatches] = useMS(() =>
+    typeof window !== "undefined" && window.matchMedia
+      ? window.matchMedia(query).matches
+      : false
+  );
+  useME(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mq = window.matchMedia(query);
+    const onChange = (e) => setMatches(e.matches);
+    setMatches(mq.matches);
+    if (mq.addEventListener) mq.addEventListener("change", onChange);
+    else mq.addListener(onChange);
+    return () => {
+      if (mq.removeEventListener) mq.removeEventListener("change", onChange);
+      else mq.removeListener(onChange);
+    };
+  }, [query]);
+  return matches;
+}
+function useIsMobile() { return useMediaQuery("(max-width: 760px)"); }

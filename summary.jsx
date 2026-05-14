@@ -7,6 +7,7 @@ function SavingsSummary({ flight, passengers, bookingMode, onClose }) {
   const totalEcho = bookingMode === "Charter Aircraft" ? displayPrice : displayPrice * passengers;
   const totalLegacy = L.legacyPrice * passengers;
   const [dt, dap] = window.FL.fmtTime(flight.dep_h, flight.dep_m);
+  const isMobile = window.useIsMobile ? window.useIsMobile() : false;
 
   return (
     <div
@@ -15,8 +16,11 @@ function SavingsSummary({ flight, passengers, bookingMode, onClose }) {
         position: "fixed", inset: 0, zIndex: 100,
         background: "rgba(14,15,18,.65)",
         backdropFilter: "blur(8px)",
-        display: "flex", alignItems: "center", justifyContent: "center",
-        padding: 32, overflowY: "auto",
+        display: "flex",
+        alignItems: isMobile ? "flex-start" : "center",
+        justifyContent: "center",
+        padding: isMobile ? 12 : 32,
+        overflowY: "auto",
       }}
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
@@ -25,46 +29,53 @@ function SavingsSummary({ flight, passengers, bookingMode, onClose }) {
         maxWidth: 920, width: "100%",
         border: "1px solid var(--ink-0)",
         position: "relative",
+        marginTop: isMobile ? 12 : 0,
+        marginBottom: isMobile ? 12 : 0,
       }}>
         {/* Maroon header bar */}
         <div style={{
           background: "var(--maroon)", color: "#fff",
-          padding: "18px 32px",
+          padding: isMobile ? "14px 18px" : "18px 32px",
           display: "flex", justifyContent: "space-between", alignItems: "center",
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <div style={{ width: 8, height: 8, background: "var(--orange)", borderRadius: "50%" }} />
             <span style={{
-              fontFamily: "'JetBrains Mono', monospace", fontSize: 11,
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: isMobile ? 9 : 11,
               letterSpacing: ".24em", textTransform: "uppercase",
-            }}>Flight Selected · Pending Confirmation</span>
+            }}>{isMobile ? "Flight Selected" : "Flight Selected · Pending Confirmation"}</span>
           </div>
           <button onClick={onClose} style={{
             background: "transparent", border: "none", color: "#fff",
-            fontSize: 18, cursor: "pointer", padding: 4,
+            fontSize: 22, cursor: "pointer", padding: 4, lineHeight: 1,
           }}>×</button>
         </div>
 
-        <div style={{ padding: "44px 56px 32px" }}>
+        <div style={{ padding: isMobile ? "28px 22px 24px" : "44px 56px 32px" }}>
           {/* Itinerary line */}
-          <div style={{ display: "flex", alignItems: "baseline", gap: 16, marginBottom: 6 }}>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 12, marginBottom: 6, flexWrap: "wrap" }}>
             <span style={{
-              fontFamily: "'Newsreader', serif", fontSize: 64, fontWeight: 500,
+              fontFamily: "'Newsreader', serif",
+              fontSize: isMobile ? 44 : 64,
+              fontWeight: 500,
               lineHeight: 1, letterSpacing: "-0.02em",
             }}>
               {flight.dep_code}
             </span>
-            <span style={{ fontSize: 28, color: "var(--maroon)" }}>→</span>
+            <span style={{ fontSize: isMobile ? 22 : 28, color: "var(--maroon)" }}>→</span>
             <span style={{
-              fontFamily: "'Newsreader', serif", fontSize: 64, fontWeight: 500,
+              fontFamily: "'Newsreader', serif",
+              fontSize: isMobile ? 44 : 64,
+              fontWeight: 500,
               lineHeight: 1, letterSpacing: "-0.02em",
             }}>
               {flight.arr_code}
             </span>
           </div>
           <div style={{
-            fontSize: 14, color: "var(--ink-2)",
-            display: "flex", gap: 14, flexWrap: "wrap",
+            fontSize: isMobile ? 11.5 : 14, color: "var(--ink-2)",
+            display: "flex", gap: 10, flexWrap: "wrap",
             fontFamily: "'JetBrains Mono', monospace",
             letterSpacing: ".08em",
           }}>
@@ -79,14 +90,16 @@ function SavingsSummary({ flight, passengers, bookingMode, onClose }) {
 
           {/* Big saved numbers */}
           <div style={{
-            marginTop: 44,
-            display: "grid", gridTemplateColumns: "1fr 1fr",
+            marginTop: isMobile ? 28 : 44,
+            display: "grid",
+            gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
             gap: 0,
             border: "1px solid var(--ink-0)",
           }}>
             <div style={{
-              padding: "32px 28px",
-              borderRight: "1px solid var(--ink-0)",
+              padding: isMobile ? "22px 20px" : "32px 28px",
+              borderRight: isMobile ? "none" : "1px solid var(--ink-0)",
+              borderBottom: isMobile ? "1px solid var(--ink-0)" : "none",
               background: "var(--ink-0)", color: "#fff",
             }}>
               <div style={{
@@ -94,8 +107,9 @@ function SavingsSummary({ flight, passengers, bookingMode, onClose }) {
                 letterSpacing: ".22em", color: "var(--orange)",
               }}>YOU SAVED</div>
               <div style={{
-                fontFamily: "'Newsreader', serif", fontSize: 84,
-                fontWeight: 400, lineHeight: 0.95, marginTop: 14,
+                fontFamily: "'Newsreader', serif",
+                fontSize: isMobile ? 56 : 84,
+                fontWeight: 400, lineHeight: 0.95, marginTop: 12,
                 letterSpacing: "-0.02em",
               }}>
                 {window.FL.minutesToStr(L.timeSavedMin)}
@@ -106,7 +120,7 @@ function SavingsSummary({ flight, passengers, bookingMode, onClose }) {
             </div>
 
             <div style={{
-              padding: "32px 28px",
+              padding: isMobile ? "22px 20px" : "32px 28px",
               background: "var(--paper)",
             }}>
               <div style={{
@@ -114,8 +128,9 @@ function SavingsSummary({ flight, passengers, bookingMode, onClose }) {
                 letterSpacing: ".22em", color: "var(--maroon)",
               }}>YOU SAVED</div>
               <div style={{
-                fontFamily: "'Newsreader', serif", fontSize: 84,
-                fontWeight: 400, lineHeight: 0.95, marginTop: 14,
+                fontFamily: "'Newsreader', serif",
+                fontSize: isMobile ? 56 : 84,
+                fontWeight: 400, lineHeight: 0.95, marginTop: 12,
                 letterSpacing: "-0.02em", color: "var(--ink-0)",
               }}>
                 ${priceSaved * passengers}
@@ -128,13 +143,15 @@ function SavingsSummary({ flight, passengers, bookingMode, onClose }) {
 
           {/* Side-by-side breakdown */}
           <div style={{
-            marginTop: 32,
-            display: "grid", gridTemplateColumns: "1fr 1fr",
-            gap: 0,
+            marginTop: isMobile ? 24 : 32,
+            display: "grid",
+            gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+            gap: isMobile ? 0 : 0,
           }}>
             <div style={{
-              padding: "20px 24px 20px 0",
-              borderRight: "1px solid var(--rule)",
+              padding: isMobile ? "20px 0" : "20px 24px 20px 0",
+              borderRight: isMobile ? "none" : "1px solid var(--rule)",
+              borderBottom: isMobile ? "1px solid var(--rule)" : "none",
             }}>
               <Chip tone="maroon">Your booking · E.C.H.O.</Chip>
               <div style={{
@@ -159,7 +176,7 @@ function SavingsSummary({ flight, passengers, bookingMode, onClose }) {
               </div>
             </div>
 
-            <div style={{ padding: "20px 0 20px 24px" }}>
+            <div style={{ padding: isMobile ? "20px 0" : "20px 0 20px 24px" }}>
               <Chip tone="ghost">Hypothetical · Regional jet via {L.hub}</Chip>
               <div style={{
                 marginTop: 16,
@@ -186,7 +203,10 @@ function SavingsSummary({ flight, passengers, bookingMode, onClose }) {
 
           {/* CTA */}
           <div style={{
-            marginTop: 36, display: "flex", gap: 12, alignItems: "center",
+            marginTop: isMobile ? 28 : 36,
+            display: "flex",
+            flexDirection: isMobile ? "column" : "row",
+            gap: 12, alignItems: "stretch",
           }}>
             <button style={{
               padding: "16px 28px",
