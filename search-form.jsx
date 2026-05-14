@@ -43,10 +43,10 @@ function TopNav() {
   const isMobile = useIsMobile();
   const [open, setOpen] = useMS(false);
   const links = [
-    { label: "Book",       href: "#" },
-    { label: "Aircraft",   href: "docs/AVD_2-3.pdf",                                 external: true },
-    { label: "Poster",     href: "docs/AVD_poster_ELECTRAM.pdf",                     external: true },
-    { label: "About",      href: "https://sites.google.com/vt.edu/electram-air?usp=sharing", external: true },
+    { label: "Book", href: "#" },
+    { label: "Aircraft", href: "docs/AVD_2-3.pdf", external: true },
+    { label: "Poster", href: "docs/AVD_poster_ELECTRAM.pdf", external: true },
+    { label: "About", href: "https://sites.google.com/vt.edu/electram-air?usp=sharing", external: true },
   ];
   return (
     <header style={{
@@ -97,14 +97,20 @@ function TopNav() {
               display: "flex", flexDirection: "column", gap: 4,
             }}
           >
-            <span style={{ width: 18, height: 1.5, background: "var(--ink-0)",
+            <span style={{
+              width: 18, height: 1.5, background: "var(--ink-0)",
               transform: open ? "translateY(5.5px) rotate(45deg)" : "none",
-              transition: "transform .25s", transformOrigin: "center" }} />
-            <span style={{ width: 18, height: 1.5, background: "var(--ink-0)",
-              opacity: open ? 0 : 1, transition: "opacity .15s" }} />
-            <span style={{ width: 18, height: 1.5, background: "var(--ink-0)",
+              transition: "transform .25s", transformOrigin: "center"
+            }} />
+            <span style={{
+              width: 18, height: 1.5, background: "var(--ink-0)",
+              opacity: open ? 0 : 1, transition: "opacity .15s"
+            }} />
+            <span style={{
+              width: 18, height: 1.5, background: "var(--ink-0)",
               transform: open ? "translateY(-5.5px) rotate(-45deg)" : "none",
-              transition: "transform .25s", transformOrigin: "center" }} />
+              transition: "transform .25s", transformOrigin: "center"
+            }} />
           </button>
         )}
       </div>
@@ -169,7 +175,7 @@ function HeroVideo({ parallaxY }) {
   useME(() => {
     const v = videoRef.current;
     if (!v || !src) return;
-    v.play().catch(() => {/* autoplay blocked */});
+    v.play().catch(() => {/* autoplay blocked */ });
   }, [src]);
 
   return (
@@ -366,19 +372,19 @@ function Hero() {
 
         {/* Scroll cue */}
         {!isMobile && (
-        <HeroEntry delay={1100} duration={1000}>
-          <div className="em-mobile-hide" style={{
-            position: "absolute", left: 32, bottom: 24,
-            display: "flex", alignItems: "center", gap: 10,
-            color: "rgba(255,255,255,.55)",
-            fontFamily: "'JetBrains Mono', monospace", fontSize: 10,
-            letterSpacing: ".22em", textTransform: "uppercase",
-            animation: "heroScrollCue 2.4s ease-in-out infinite",
-          }}>
-            <span style={{ display: "inline-block", width: 24, height: 1, background: "currentColor" }} />
-            <span>Scroll to book</span>
-          </div>
-        </HeroEntry>
+          <HeroEntry delay={1100} duration={1000}>
+            <div className="em-mobile-hide" style={{
+              position: "absolute", left: 32, bottom: 24,
+              display: "flex", alignItems: "center", gap: 10,
+              color: "rgba(255,255,255,.55)",
+              fontFamily: "'JetBrains Mono', monospace", fontSize: 10,
+              letterSpacing: ".22em", textTransform: "uppercase",
+              animation: "heroScrollCue 2.4s ease-in-out infinite",
+            }}>
+              <span style={{ display: "inline-block", width: 24, height: 1, background: "currentColor" }} />
+              <span>Scroll to book</span>
+            </div>
+          </HeroEntry>
         )}
       </div>
     </section>
@@ -400,114 +406,114 @@ function SearchPanel({ state, setState, onSearch }) {
       zIndex: 10,
     }}>
       <div className="container" style={{ padding: isMobile ? "0 20px" : "0 32px" }}>
-        <Reveal y={32} duration={800} delay={400}>
+        <Reveal y={24} duration={400} delay={50}>
           <div style={{
-          background: "var(--paper)",
-          border: "1px solid var(--rule-strong)",
-          boxShadow: "0 24px 60px -20px rgba(14,15,18,.35)",
-          padding: 0,
-        }}>
-          {/* Top row: trip controls */}
-          <div style={{
-            display: "flex",
-            alignItems: isMobile ? "stretch" : "center",
-            justifyContent: "space-between",
-            padding: isMobile ? "14px 16px" : "18px 24px",
-            borderBottom: "1px solid var(--rule)",
-            gap: isMobile ? 12 : 24,
-            flexWrap: "wrap",
-            flexDirection: isMobile ? "column" : "row",
+            background: "var(--paper)",
+            border: "1px solid var(--rule-strong)",
+            boxShadow: "0 24px 60px -20px rgba(14,15,18,.35)",
+            padding: 0,
           }}>
+            {/* Top row: trip controls */}
             <div style={{
-              display: "flex", gap: isMobile ? 8 : 16,
-              alignItems: "center", flexWrap: "wrap",
+              display: "flex",
+              alignItems: isMobile ? "stretch" : "center",
+              justifyContent: "space-between",
+              padding: isMobile ? "14px 16px" : "18px 24px",
+              borderBottom: "1px solid var(--rule)",
+              gap: isMobile ? 12 : 24,
+              flexWrap: "wrap",
+              flexDirection: isMobile ? "column" : "row",
             }}>
-              <Segmented
-                value={state.trip_type}
-                onChange={(v) => setState((s) => ({ ...s, trip_type: v }))}
-                options={["Round Trip", "One Way"]}
-              />
-              <Segmented
-                value={state.booking_mode}
-                onChange={(v) => setState((s) => ({ ...s, booking_mode: v }))}
-                options={[
-                  { value: "Seat Booking", label: "Per Seat" },
-                  { value: "Charter Aircraft", label: "Full Aircraft" },
-                ]}
-              />
+              <div style={{
+                display: "flex", gap: isMobile ? 8 : 16,
+                alignItems: "center", flexWrap: "wrap",
+              }}>
+                <Segmented
+                  value={state.trip_type}
+                  onChange={(v) => setState((s) => ({ ...s, trip_type: v }))}
+                  options={["Round Trip", "One Way"]}
+                />
+                <Segmented
+                  value={state.booking_mode}
+                  onChange={(v) => setState((s) => ({ ...s, booking_mode: v }))}
+                  options={[
+                    { value: "Seat Booking", label: "Per Seat" },
+                    { value: "Charter Aircraft", label: "Full Aircraft" },
+                  ]}
+                />
+              </div>
+              <div style={{
+                display: "flex", alignItems: "center", gap: 12,
+                justifyContent: isMobile ? "space-between" : "flex-end",
+              }}>
+                <TechLabel>Passengers</TechLabel>
+                <Stepper
+                  value={state.passengers}
+                  onChange={(v) => setState((s) => ({ ...s, passengers: v }))}
+                />
+              </div>
             </div>
-            <div style={{
-              display: "flex", alignItems: "center", gap: 12,
-              justifyContent: isMobile ? "space-between" : "flex-end",
-            }}>
-              <TechLabel>Passengers</TechLabel>
-              <Stepper
-                value={state.passengers}
-                onChange={(v) => setState((s) => ({ ...s, passengers: v }))}
-              />
-            </div>
-          </div>
 
-          {/* Main form */}
-          <div className="em-mobile-stack" style={{
-            display: "grid",
-            gridTemplateColumns: isMobile
-              ? "1fr"
-              : "1fr auto 1fr 1fr 1fr auto",
-            gap: isMobile ? 14 : 16,
-            alignItems: "end",
-            padding: isMobile ? "18px 16px" : "24px",
-          }}>
-            <FieldSelect
-              label="Departing"
-              value={state.depart_code}
-              onChange={(v) => setState((s) => ({ ...s, depart_code: v }))}
-              options={window.AIRPORTS}
-            />
-            <button onClick={swapAirports} aria-label="Swap" className="em-mobile-full" style={{
-              alignSelf: isMobile ? "center" : "end",
-              marginBottom: 2,
-              width: isMobile ? "100%" : 44,
-              height: isMobile ? 36 : 44,
-              border: "1px solid var(--rule-strong)",
-              background: "var(--paper)", color: "var(--ink-0)",
-              cursor: "pointer", fontSize: 18,
-            }}>⇄</button>
-            <FieldSelect
-              label="Arriving"
-              value={state.arrive_code}
-              onChange={(v) => setState((s) => ({ ...s, arrive_code: v }))}
-              options={window.AIRPORTS}
-            />
-            <FieldDate
-              label="Departure"
-              value={state.depart_date}
-              min={new Date().toISOString().slice(0, 10)}
-              onChange={(v) => setState((s) => ({ ...s, depart_date: v }))}
-            />
-            <FieldDate
-              label="Return"
-              value={state.return_date}
-              min={state.depart_date}
-              disabled={!isRound}
-              onChange={(v) => setState((s) => ({ ...s, return_date: v }))}
-            />
-            <button onClick={onSearch} style={{
-              alignSelf: isMobile ? "stretch" : "end",
-              padding: "14px 28px",
-              minHeight: 50,
-              marginTop: isMobile ? 6 : 0,
-              background: "var(--maroon)", color: "#fff",
-              border: "none", cursor: "pointer",
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 11, fontWeight: 600,
-              letterSpacing: ".18em", textTransform: "uppercase",
-              whiteSpace: "nowrap",
+            {/* Main form */}
+            <div className="em-mobile-stack" style={{
+              display: "grid",
+              gridTemplateColumns: isMobile
+                ? "1fr"
+                : "1fr auto 1fr 1fr 1fr auto",
+              gap: isMobile ? 14 : 16,
+              alignItems: "end",
+              padding: isMobile ? "18px 16px" : "24px",
             }}>
-              Search →
-            </button>
+              <FieldSelect
+                label="Departing"
+                value={state.depart_code}
+                onChange={(v) => setState((s) => ({ ...s, depart_code: v }))}
+                options={window.AIRPORTS}
+              />
+              <button onClick={swapAirports} aria-label="Swap" className="em-mobile-full" style={{
+                alignSelf: isMobile ? "center" : "end",
+                marginBottom: 2,
+                width: isMobile ? "100%" : 44,
+                height: isMobile ? 36 : 44,
+                border: "1px solid var(--rule-strong)",
+                background: "var(--paper)", color: "var(--ink-0)",
+                cursor: "pointer", fontSize: 18,
+              }}>⇄</button>
+              <FieldSelect
+                label="Arriving"
+                value={state.arrive_code}
+                onChange={(v) => setState((s) => ({ ...s, arrive_code: v }))}
+                options={window.AIRPORTS}
+              />
+              <FieldDate
+                label="Departure"
+                value={state.depart_date}
+                min={new Date().toISOString().slice(0, 10)}
+                onChange={(v) => setState((s) => ({ ...s, depart_date: v }))}
+              />
+              <FieldDate
+                label="Return"
+                value={state.return_date}
+                min={state.depart_date}
+                disabled={!isRound}
+                onChange={(v) => setState((s) => ({ ...s, return_date: v }))}
+              />
+              <button onClick={onSearch} style={{
+                alignSelf: isMobile ? "stretch" : "end",
+                padding: "14px 28px",
+                minHeight: 50,
+                marginTop: isMobile ? 6 : 0,
+                background: "var(--maroon)", color: "#fff",
+                border: "none", cursor: "pointer",
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 11, fontWeight: 600,
+                letterSpacing: ".18em", textTransform: "uppercase",
+                whiteSpace: "nowrap",
+              }}>
+                Search →
+              </button>
+            </div>
           </div>
-        </div>
         </Reveal>
       </div>
     </div>
