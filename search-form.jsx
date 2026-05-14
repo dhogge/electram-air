@@ -372,9 +372,8 @@ function Hero() {
 
         {/* Scroll cue */}
         {!isMobile && (
-          <HeroEntry delay={1100} duration={1000}>
+          <HeroEntry delay={1100} duration={1000} style={{ position: "absolute", left: 32, bottom: 120 }}>
             <div className="em-mobile-hide" style={{
-              position: "absolute", left: 32, bottom: 24,
               display: "flex", alignItems: "center", gap: 10,
               color: "rgba(255,255,255,.55)",
               fontFamily: "'JetBrains Mono', monospace", fontSize: 10,
@@ -406,7 +405,7 @@ function SearchPanel({ state, setState, onSearch }) {
       zIndex: 10,
     }}>
       <div className="container" style={{ padding: isMobile ? "0 20px" : "0 32px" }}>
-        <Reveal y={24} duration={400} delay={50}>
+        <Reveal y={24} duration={600} delay={200}>
           <div style={{
             background: "var(--paper)",
             border: "1px solid var(--rule-strong)",
