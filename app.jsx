@@ -115,7 +115,7 @@ function App() {
           <div className="container" style={{ padding: isMobile ? "0 20px" : "0 32px" }}>
 
             {/* Results header */}
-            <Reveal y={28} duration={900}>
+            <Reveal y={16} duration={500}>
               <div style={{
               display: "flex", alignItems: "flex-end",
               justifyContent: "space-between", flexWrap: "wrap", gap: 24,
@@ -306,7 +306,7 @@ function FlightList({ flights, bookingMode, passengers, onSelect, comparisonStyl
   return (
     <div>
       {flights.map((f, i) =>
-      <Reveal key={i} delay={i * 110} y={28} duration={900}>
+      <Reveal key={i} delay={i * 50} y={16} duration={500}>
           <FlightCard
           flight={f}
           comparisonStyle={comparisonStyle}
@@ -354,7 +354,7 @@ function SideBySide({ flights, bookingMode, passengers, onSelect, showLegacy }) 
         {flights.map((f, i) => {
           f.display_price = bookingMode === "Charter Aircraft" ? f.charter_price : f.price;
           return (
-            <Reveal key={i} delay={i * 110} y={28} duration={900}>
+            <Reveal key={i} delay={i * 50} y={16} duration={500}>
               <div style={{
                 display: "grid",
                 gridTemplateColumns: (showLegacy && !isMobile) ? "1fr 1fr" : "1fr",

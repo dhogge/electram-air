@@ -484,19 +484,26 @@ function SearchPanel({ state, setState, onSearch }) {
                 onChange={(v) => setState((s) => ({ ...s, arrive_code: v }))}
                 options={window.AIRPORTS}
               />
-              <FieldDate
-                label="Departure"
-                value={state.depart_date}
-                min={new Date().toISOString().slice(0, 10)}
-                onChange={(v) => setState((s) => ({ ...s, depart_date: v }))}
-              />
-              <FieldDate
-                label="Return"
-                value={state.return_date}
-                min={state.depart_date}
-                disabled={!isRound}
-                onChange={(v) => setState((s) => ({ ...s, return_date: v }))}
-              />
+              <div style={{
+                gridColumn: isMobile ? "auto" : "span 2",
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: isMobile ? 12 : 16,
+              }}>
+                <FieldDate
+                  label="Departure"
+                  value={state.depart_date}
+                  min={new Date().toISOString().slice(0, 10)}
+                  onChange={(v) => setState((s) => ({ ...s, depart_date: v }))}
+                />
+                <FieldDate
+                  label="Return"
+                  value={state.return_date}
+                  min={state.depart_date}
+                  disabled={!isRound}
+                  onChange={(v) => setState((s) => ({ ...s, return_date: v }))}
+                />
+              </div>
               <button onClick={onSearch} style={{
                 alignSelf: isMobile ? "stretch" : "end",
                 padding: "14px 28px",
